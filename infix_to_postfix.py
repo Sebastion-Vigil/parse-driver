@@ -4,7 +4,6 @@ Priority = {'+':1, '-':1, '*':2, '/':2, '^':3} # dictionary having priorities of
  
  
 def infixToPostfix(expression): 
-    expression = expression.split(' ')
     stack = [] # initialization of empty stack
 
     output = []
@@ -44,8 +43,7 @@ def infixToPostfix(expression):
     return ' '.join(output)
 
 
-expression = input('Enter infix expression ')
-
-print('infix notation: ',expression)
-
-print('postfix notation: ',infixToPostfix(expression))
+infix = ['8', '^', '2', '+', '6', '-', '2', '*', '10', '/', '2']
+postfix = infixToPostfix(infix)
+print('infix: ', ' '.join(infix))
+print('postfix: ', postfix)
