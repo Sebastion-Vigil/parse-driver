@@ -10,60 +10,53 @@ class Node {
 class BinaryExpressionTree {
     constructor() {
         this.stack = [],
-        this.operators = ['+', '-', '*', '/', '(', ')', '^']
+        this.operations = {
+            '^': (a, b) => a ** b,
+            '*': (a, b) => a * b,
+            '/': (a, b) => a / b,
+            '+': (a, b) => a + b,
+            '-': (a, b) => a - b
+        } 
     }
 
-    buildExpressionTree(expression) {
+    parse(expression) {
         expression.forEach((char) => {
             const node = new Node(char)
-            if (!this.operators.includes(char)) {
+            if (!Object.keys(this.operations).includes(char)) {
                 node.data = parseInt(node.data, 10)
                 this.stack.push(node)
             } else {
-                const r = this.stack.pop()
-                const l = this.stack.pop()
-                node.right = r
-                node.left = l
+                node.right = this.stack.pop()
+                node.left = this.stack.pop()
                 this.stack.push(node)
             }
         })    
     }
 
     operate(n1, o, n2)  { // operand in middle
-        const operations = {
-          '^': function (a, b) {
-              return a ** b
-          },
-          '*': function (a, b) {
-              return a * b
-          },
-          '/': function (a, b) {
-              return a / b
-          },
-          '+': function (a, b) {
-              return a + b
-          },
-          '-': function (a, b) {
-              return a - b
-          }
-        } 
-        return operations[o](n1, n2) 
+        return this.operations[o](n1, n2) 
       }
 
     evaluate(root) {
-        if (!root.data) { // empty tree?
+        if (!root.data) { 
             return 0
         }
         if (!root.left && !root.right) {
             return root.data
         }
-        let leftSum = this.evaluate(root.left)
-        let rightSum = this.evaluate(root.right)
-        return this.operate(leftSum, root.data, rightSum)
+        const leftResult = this.evaluate(root.left)
+        const rightResult = this.evaluate(root.right)
+        return this.operate(leftResult, root.data, rightResult)
     }
+    returnAnswer() {
+        return this.evaluate(this.stack[0])
+    }    
 }
 
+
+const input = ['8', '2', '^', '6', '+', '2', '10', '*', '2', '/', '-']
 const testTree = new BinaryExpressionTree()
-testTree.buildExpressionTree(['8', '2', '^', '6', '+', '2', '10', '*', '2', '/', '-'])
-const answer = testTree.evaluate(testTree.stack[0])
+testTree.parse(input)
+const answer = testTree.returnAnswer()
+console.log('postfix input: ', input.join(' '))
 console.log('answer: ', answer)
