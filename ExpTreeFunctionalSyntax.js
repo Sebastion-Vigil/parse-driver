@@ -2,7 +2,6 @@
 
 const expressionTree = {
     // need 2 determine tree ht if possible    
-    stack: [],
     operations: {
             '^': (a, b) => a ** b,
             '*': (a, b) => a * b,
@@ -21,17 +20,21 @@ const expressionTree = {
     },
 
     parse(expression) {
+        const treeStack = []
         expression.forEach((char) => {
             const newNode = this.createNode(char)
             if (!Object.keys(this.operations).includes(char)) {
                 newNode.data = parseInt(newNode.data, 10)
-                this.stack.push(newNode)
+                treeStack.push(newNode)
             } else {
-                newNode.right = this.stack.pop()
-                newNode.left = this.stack.pop()
-                this.stack.push(newNode)
+                newNode.right = treeStack.pop()
+                newNode.left = treeStack.pop()
+                treeStack.push(newNode)
             }
         })
+        console.log('parsed input tree pre-evaluation: ')
+        console.log(JSON.stringify(treeStack[0], null, 4))
+        return treeStack[0] // don't forget ur just returning and obj!
     },
 
     operate(n1, o, n2) {
@@ -46,8 +49,9 @@ const expressionTree = {
         return this.operate(leftResult, root.data, rightResult)
     },
 
-    returnAnswer() {
-        return this.evaluate(this.stack[0])
+    returnAnswer(input) { // post fix input goes here
+        const parsedInput = this.parse(input) // processed here
+        return this.evaluate(parsedInput)
     }
 }
 
@@ -55,8 +59,16 @@ const expressionTree = {
 
 
 const input = ['8', '2', '^', '6', '+', '2', '10', '*', '2', '/', '-']
-expressionTree.parse(input)
-const answer = expressionTree.returnAnswer()
+const answer = expressionTree.returnAnswer(input)
 console.log('Postfix input: ', input.join(' '))
 console.log('answer: ', answer)
-console.log(JSON.stringify(expressionTree.stack[0], null, 4))
+// 12  2  6-*
+const input2 = ['12', '2', '6', '-', '*']
+const answer2 = expressionTree.returnAnswer(input2)
+console.log('Postfix input2: ', input2.join(' '))
+console.log('answer2: ', answer2)
+// 12  2 * 6-
+const input3 = ['12', '2', '*', '6', '-']
+const answer3 = expressionTree.returnAnswer(input3)
+console.log('Postfix input3: ', input3.join(' '))
+console.log('answer3: ', answer3)
