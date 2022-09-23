@@ -1,8 +1,8 @@
 # parse-driver
 calculator
 
-## Notes ##
-  - user inputs infix expression
-  - program 1st converts 2 postfix
-  - then evaluates to answer
-  - binary expression tree best for calculation
+## We Now Have Code That: ##
+#### (Successfully converted from class to functional/(object/prototypal?) syntax) ####
+  - converts user infix input to postfix 
+  - takes postfix and parses expression tree 
+  - evaluates expression tree and returns answer
