@@ -34,7 +34,7 @@ const expressionTree = {
         })
         console.log('parsed input tree pre-evaluation: ')
         console.log(JSON.stringify(treeStack[0], null, 4))
-        return treeStack[0] // don't forget ur just returning and obj!
+        return treeStack[0]
     },
 
     operate(n1, o, n2) {
