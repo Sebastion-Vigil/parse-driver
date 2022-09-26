@@ -29,6 +29,7 @@ function infixToPostfix(expression) {
     while (stack.length > 0) {
         output.push(stack.pop())
     }
+    console.log('stack after conversion: ', stack)
     return output.join(' ')
 }
 
@@ -36,3 +37,7 @@ const testInput = ['8', '^', '2', '+', '6', '-', '2', '*', '10', '/', '2']
 const postFixExpression = infixToPostfix(testInput)
 console.log('testInput: ', testInput.join(' ')) 
 console.log('postfix: ', postFixExpression)
+const testInput2 = ['8', '(', '(', '^', '2']
+const postfix2 = infixToPostfix(testInput2)
+console.log(postfix2)
+
