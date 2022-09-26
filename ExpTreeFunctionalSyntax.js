@@ -49,9 +49,8 @@ const expressionTree = {
         return this.operate(leftResult, root.data, rightResult)
     },
 
-    returnAnswer(input) { // post fix input goes here
-        const parsedInput = this.parse(input) // processed here
-        return this.evaluate(parsedInput)
+    returnAnswer(input) { // postfix
+        return this.evaluate(this.parse(input))
     }
 }
 
