@@ -10,6 +10,8 @@ def precedence(op):
 		return 1
 	if op == '*' or op == '/':
 		return 2
+	if op == '^':
+		return 3
 	return 0
 
 # Function to perform arithmetic
@@ -20,6 +22,7 @@ def applyOp(a, b, op):
 	if op == '-': return a - b
 	if op == '*': return a * b
 	if op == '/': return a // b
+	if op == '^': return a ** b
 
 # Function that returns value of
 # expression after evaluation.
@@ -125,6 +128,7 @@ def evaluate(tokens):
 # Driver Code
 if __name__ == "__main__":
 	
+	print(evaluate("8 ^ 2 + 6 - 2 * 10 / 2"))
 	print(evaluate("10 + 2 * 6"))
 	print(evaluate("100 * 2 + 12"))
 	print(evaluate("100 * ( 2 + 12 )"))
