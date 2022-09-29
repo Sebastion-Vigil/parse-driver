@@ -31,9 +31,12 @@ def evaluate(tokens):
 			continue
 		
 		elif tokens[i] == '(': # push '(' to ops
-			print("Opening '(' found. ")
+			print("Open '(' found. ")
 			ops.append(tokens[i])
+			print('values: ', values)
 			print('ops: ', ops)
+			print('i: ', i)
+			print('tokens: ', tokens)
 		
 		elif tokens[i].isdigit(): # push Ns to values
 			val = 0
@@ -42,8 +45,9 @@ def evaluate(tokens):
 				val = (val * 10) + int(tokens[i])
 				i += 1	
 			values.append(val)
-			print('Token is digit, pushing to values. ')
-			print('values: ', values)
+			print('Token is digit, pushing to values: ', values)
+			print('ops: ', ops)
+			print('tokens: ', tokens)
 			# right now the i points to
 			# the character next to the digit,
 			# since the for loop also increases
@@ -54,22 +58,43 @@ def evaluate(tokens):
 			i-=1
 			
 		elif tokens[i] == ')': # solve expr within closing brace
-			while len(ops) != 0 and ops[-1] != '(':	
+			while len(ops) != 0 and ops[-1] != '(':
+				print("Closed ')' found. ")
 				val2 = values.pop()
 				val1 = values.pop()
 				op = ops.pop()
+				print('val1, val2, op: ', val1, val2, op)
 				values.append(applyOp(val1, val2, op))
+				print('Evaluates to: ', values[-1])
+				print('values: ', values)
+				print('ops: ', ops)
+				print('tokens: ', tokens)
 			ops.pop() # and then pop opening brace
 		   
 		else: # Apply operator on top of 'ops'
-			while (len(ops) != 0 and    # While top of 'ops' has same or
-				precedence(ops[-1]) >=  # greater precedence to current
-				precedence(tokens[i])): # token, which is an operator.
-				val2 = values.pop()     # current token operator 
-				val1 = values.pop()     # to top two elements in values stack.
+			# print(
+			# 	"""
+			# Apply operator on top of 'ops':
+			# While top of 'ops' has same or greater precedence
+			# to current token, which is an operator,
+			# current token operator 
+			# to top two elements in values stack.
+			# 	"""
+			#      )
+			while (len(ops) != 0 and
+				precedence(ops[-1]) >=
+				precedence(tokens[i])):
+				val2 = values.pop() 
+				val1 = values.pop()
 				op = ops.pop()
+				print('val1, val2, op: ', val1, val2, op)
 				values.append(applyOp(val1, val2, op))
-			ops.append(tokens[i]) # Push current token to 'ops'.	
+				print('Evaluates to: ', values[-1])
+				print('values: ', values)
+				print('ops: ', ops)
+				print('tokens: ', tokens)
+			ops.append(tokens[i]) # Push current token to 'ops'.
+			print('Token is operator, pushing to ops: ', ops)
 		i += 1
 	print('Entire expression parsed at this point: ')
 	print('Apply remaining ops to remaining values: ')
@@ -77,13 +102,14 @@ def evaluate(tokens):
 		print('values: ', values)
 		val2 = values.pop() # apply remaining ops to remaining vals
 		val1 = values.pop()
-		print('val1, val2: ', val1, val2)
-		print('ops before pop: ', ops)
 		op = ops.pop()
-		print('ops after pop: ', ops)
+		print('val1, val2, op: ', val1, val2, op)
 		print('values before pushing eval of val1, val2, and op: ', values)
 		values.append(applyOp(val1, val2, op))
+		print('Evaluates to: ', values[-1])
 		print('Values after: ', values)
+		print('ops after pop: ', ops)
+		print('tokens: ', tokens)
 	return values[-1] # return the result at top of 'values'
 
 # Driver Code
