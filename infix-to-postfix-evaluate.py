@@ -26,6 +26,7 @@ def evaluate(tokens):
 	i = 0
 	
 	while i < len(tokens):
+		print('Top of while i: ', i)
 		if tokens[i] == ' ': # skip if whitespace
 			i += 1
 			continue
@@ -33,21 +34,18 @@ def evaluate(tokens):
 		elif tokens[i] == '(': # push '(' to ops
 			print("Open '(' found. ")
 			ops.append(tokens[i])
-			print('values: ', values)
 			print('ops: ', ops)
 			print('i: ', i)
-			print('tokens: ', tokens)
 		
 		elif tokens[i].isdigit(): # push Ns to values
 			val = 0
 			while (i < len(tokens) and # multiple digit check
-				tokens[i].isdigit()): 
+				tokens[i].isdigit()):
+				print('multi-digit: ', tokens[i])
 				val = (val * 10) + int(tokens[i])
 				i += 1	
 			values.append(val)
 			print('Token is digit, pushing to values: ', values)
-			print('ops: ', ops)
-			print('tokens: ', tokens)
 			# right now the i points to
 			# the character next to the digit,
 			# since the for loop also increases
@@ -68,7 +66,6 @@ def evaluate(tokens):
 				print('Evaluates to: ', values[-1])
 				print('values: ', values)
 				print('ops: ', ops)
-				print('tokens: ', tokens)
 			ops.pop() # and then pop opening brace
 		   
 		else: # Apply operator on top of 'ops'
@@ -92,7 +89,6 @@ def evaluate(tokens):
 				print('Evaluates to: ', values[-1])
 				print('values: ', values)
 				print('ops: ', ops)
-				print('tokens: ', tokens)
 			ops.append(tokens[i]) # Push current token to 'ops'.
 			print('Token is operator, pushing to ops: ', ops)
 		i += 1
@@ -109,7 +105,6 @@ def evaluate(tokens):
 		print('Evaluates to: ', values[-1])
 		print('Values after: ', values)
 		print('ops after pop: ', ops)
-		print('tokens: ', tokens)
 	return values[-1] # return the result at top of 'values'
 
 # Driver Code
